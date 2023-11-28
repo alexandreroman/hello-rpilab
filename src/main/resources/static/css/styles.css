@@ -1,0 +1,35 @@
+h1, h2 {
+  font-family: 'Roboto Slab', monospace;
+}
+
+h2 {
+  color: #007cb9;
+}
+
+#app-name {
+  border-right: .60em solid #444;
+  white-space: nowrap;
+  letter-spacing: .10em;
+  animation: blink-caret .75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent
+  }
+  50% {
+    border-color: #444;
+  }
+}
+
+.info-box {
+  background: linear-gradient(#070809, #212529);
+  border: 1px solid #455d7a;
+  border-radius: 1em;
+  background: #222B;
+}
+
+.info-box:hover {
+  border-color: grey;
+  background: #333B;
+}

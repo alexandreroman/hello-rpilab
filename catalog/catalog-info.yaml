@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: hello-rpilab
+  description: Front page rpilab.dev
+  tags:
+  - java
+  - spring
+  - web
+  - opentelemetry
+  annotations:
+    backstage.io/kubernetes-label-selector: app.kubernetes.io/part-of=hello-rpilab
+spec:
+  type: service
+  lifecycle: experimental
+  owner: default-team

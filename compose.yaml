@@ -1,0 +1,9 @@
+volumes:
+  redis:
+    driver: local
+
+services:
+  postgres:
+    image: 'redis:7.2'
+    ports:
+    - '6379:6379'

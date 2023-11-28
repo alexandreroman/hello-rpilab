@@ -1,0 +1,15 @@
+logging:
+  level:
+    dev.rpilab.hello: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    enabled: false
+  otlp:
+    metrics:
+      export:
+        enabled: false

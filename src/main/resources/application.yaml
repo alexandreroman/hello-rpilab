@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: hello-rpilab
+  cache:
+    type: redis
+
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+    tags:
+      application: ${spring.application.name}
+      service: ${spring.application.name}
+      source: ${spring.application.name}-${random.uuid}
+  tracing:
+    sampling:
+      probability: 0.1
+  otlp:
+    metrics:
+      export:
+        enabled: false
+        step: 30s
+
+server:
+  port: ${PORT:8080}
+
+app:
+  info:
+    server:
+      hostname: rpilab.local
+      type: Dev Machine
+  ninja:
+    api:
+      url: https://api.api-ninjas.com
+  weather:
+    api:
+      url: https://api.weatherapi.com
+  location: Paris
+
+---
+
+spring:
+  config:
+    activate:
+      on-cloud-platform: kubernetes
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: true
