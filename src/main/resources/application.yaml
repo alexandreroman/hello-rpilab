@@ -41,7 +41,6 @@ app:
   info:
     server:
       hostname: rpilab.local
-      type: Dev Machine
   ninja:
     api:
       url: https://api.api-ninjas.com

@@ -17,6 +17,7 @@
 package dev.rpilab.hello.index;
 
 import dev.rpilab.hello.fact.FactService;
+import dev.rpilab.hello.hardware.HardwareService;
 import dev.rpilab.hello.weather.WeatherService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootVersion;
@@ -30,17 +31,16 @@ import java.net.UnknownHostException;
 @Controller
 class IndexController {
     private final String serverHostname;
-    private final String serverType;
     private final WeatherService ws;
     private final FactService fs;
+    private final HardwareService hs;
 
-    IndexController(WeatherService ws, FactService fs,
-                    @Value("${app.info.server.hostname}") String serverHostName,
-                    @Value("${app.info.server.type}") String serverType) {
+    IndexController(WeatherService ws, FactService fs, HardwareService hs,
+                    @Value("${app.info.server.hostname}") String serverHostName) {
         this.ws = ws;
         this.fs = fs;
+        this.hs = hs;
         this.serverHostname = serverHostName;
-        this.serverType = serverType;
     }
 
     @GetMapping("/")
@@ -48,7 +48,7 @@ class IndexController {
         model.addAttribute("serverHostname", serverHostname);
         model.addAttribute("springBootVersion", SpringBootVersion.getVersion());
         model.addAttribute("podHostname", InetAddress.getLocalHost().getHostName());
-        model.addAttribute("serverType", serverType);
+        model.addAttribute("serverType", hs.getHardwareModel().orElse("Dev Machine"));
         return "index";
     }
 
