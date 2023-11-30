@@ -36,6 +36,9 @@ class WeatherNativeHints implements RuntimeHintsRegistrar {
 
             hints.reflection().registerType(WeatherType.class);
             hints.reflection().registerMethod(ReflectionUtils.findMethod(WeatherType.class, "name"), ExecutableMode.INVOKE);
+
+            hints.reflection().registerType(WeatherUtils.class);
+            hints.reflection().registerMethod(ReflectionUtils.findMethod(WeatherUtils.class, "formatTemperatureCelsius", Double.TYPE), ExecutableMode.INVOKE);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Failed to configure Weather service with native image support", e);
         }
