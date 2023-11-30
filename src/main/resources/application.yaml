@@ -5,14 +5,16 @@ spring:
     type: redis
 
 management:
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http.server.requests: true
-    tags:
+  observations:
+    key-values: &tags
       application: ${spring.application.name}
       service: ${spring.application.name}
       source: ${spring.application.name}-${random.uuid}
+  metrics:
+    tags: *tags
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
   tracing:
     sampling:
       probability: 0.1
