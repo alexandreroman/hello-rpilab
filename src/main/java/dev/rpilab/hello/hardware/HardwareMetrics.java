@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package dev.rpilab.hello.weather;
+package dev.rpilab.hello.hardware;
 
-import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.binder.MeterBinder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-class WeatherMetrics {
+class HardwareMetrics {
     @Bean
-    MeterBinder temperature(WeatherService ws,
-                            @Value("${app.location}") String location) {
-        return (registry) -> Gauge.builder("weather.temperature", () ->
-                        ws.getCurrent().temperature())
-                .baseUnit("celsius").tag("location", location)
-                .description("Outdoor temperature").register(registry);
+    MeterBinder hardwareModel(HardwareService hs) {
+        return registry ->
+                Counter.builder("hardware.model")
+                        .description("Hardware model")
+                        .tag("cpu", hs.getHardwareModel().orElse("unknown"))
+                        .register(registry).increment();
     }
 }

@@ -18,8 +18,6 @@ package dev.rpilab.hello.hardware;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -34,13 +32,11 @@ public class HardwareService {
     private final Logger logger = LoggerFactory.getLogger(HardwareService.class);
     private Optional<String> hardwareModel;
 
-    @EventListener
-    void onApplicationReady(ApplicationStartedEvent e) {
-        hardwareModel = loadHardwareModel();
-    }
-
     public Optional<String> getHardwareModel() {
-        return hardwareModel;
+        if (hardwareModel == null) {
+            hardwareModel = loadHardwareModel();
+        }
+        return loadHardwareModel();
     }
 
     private Optional<String> loadHardwareModel() {
