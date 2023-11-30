@@ -21,6 +21,18 @@ management:
       export:
         enabled: false
         step: 30s
+  endpoint:
+    health:
+      probes:
+        enabled: true
+        add-additional-paths: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics
+  server:
+    port: 8081
 
 server:
   port: ${PORT:8080}
