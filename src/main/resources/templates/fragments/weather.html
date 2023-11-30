@@ -2,7 +2,7 @@
   <img th:src="${'/images/weather-' + weather.type().name().toLowerCase().replace('_', '-') + '.svg'}"
        width="64" height="64" alt="Weather icon"
        style="filter: invert(100%); margin-top: -1em" class="d-inline-block"/>
-  <span class="fs-1" th:text="${weather.temperature() + '°C'}">6°C</span>
+  <span class="fs-1" th:text="${@weatherUtils.formatTemperatureCelsius(weather.temperature())}">6°C</span>
   <span class="mx-1 text-secondary">in</span>
   <span class="fs-3" th:text="${weather.location()}">Paris</span>
 </p>
