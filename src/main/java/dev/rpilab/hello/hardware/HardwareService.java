@@ -36,7 +36,7 @@ public class HardwareService {
         if (cpuModel == null) {
             cpuModel = loadCpuModel();
         }
-        return loadCpuModel();
+        return cpuModel;
     }
 
     private Optional<String> loadCpuModel() {
