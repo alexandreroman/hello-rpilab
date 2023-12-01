@@ -18,7 +18,7 @@ spec:
       value: '17'
   resources:
     requests:
-      cpu: 1
+      cpu: 500m
       memory: 1Gi
     limits:
       memory: 1Gi
