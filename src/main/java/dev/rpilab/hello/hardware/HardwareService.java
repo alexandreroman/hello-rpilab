@@ -30,17 +30,17 @@ import java.util.Properties;
 @Service
 public class HardwareService {
     private final Logger logger = LoggerFactory.getLogger(HardwareService.class);
-    private Optional<String> hardwareModel;
+    private Optional<String> cpuModel;
 
-    public Optional<String> getHardwareModel() {
-        if (hardwareModel == null) {
-            hardwareModel = loadHardwareModel();
+    public Optional<String> getCpuModel() {
+        if (cpuModel == null) {
+            cpuModel = loadCpuModel();
         }
-        return loadHardwareModel();
+        return loadCpuModel();
     }
 
-    private Optional<String> loadHardwareModel() {
-        logger.debug("Reading hardware model");
+    private Optional<String> loadCpuModel() {
+        logger.debug("Reading CPU model");
         final var cpuInfoFile = Path.of("/proc/cpuinfo");
         if (Files.isReadable(cpuInfoFile)) {
             final Properties p = new Properties();

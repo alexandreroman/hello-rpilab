@@ -24,11 +24,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 class HardwareMetrics {
     @Bean
-    MeterBinder hardwareModel(HardwareService hs) {
+    MeterBinder cpuModel(HardwareService hs) {
         return registry ->
-                Counter.builder("hardware.model")
-                        .description("Hardware model")
-                        .tag("cpu", hs.getHardwareModel().orElse("unknown"))
+                Counter.builder("hardware.cpu")
+                        .description("CPU model")
+                        .tag("model", hs.getCpuModel().orElse("unknown"))
                         .register(registry).increment();
     }
 }

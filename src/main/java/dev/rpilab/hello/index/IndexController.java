@@ -48,7 +48,7 @@ class IndexController {
         model.addAttribute("serverHostname", serverHostname);
         model.addAttribute("springBootVersion", SpringBootVersion.getVersion());
         model.addAttribute("podHostname", InetAddress.getLocalHost().getHostName());
-        model.addAttribute("serverType", hs.getHardwareModel().orElse("Dev Machine"));
+        model.addAttribute("serverType", hs.getCpuModel().orElse("Dev Machine"));
         return "index";
     }
 
