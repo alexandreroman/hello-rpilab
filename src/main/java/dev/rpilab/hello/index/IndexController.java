@@ -16,6 +16,7 @@
 
 package dev.rpilab.hello.index;
 
+import dev.rpilab.hello.date.DateService;
 import dev.rpilab.hello.fact.FactService;
 import dev.rpilab.hello.hardware.HardwareService;
 import dev.rpilab.hello.weather.WeatherService;
@@ -34,12 +35,14 @@ class IndexController {
     private final WeatherService ws;
     private final FactService fs;
     private final HardwareService hs;
+    private final DateService ds;
 
-    IndexController(WeatherService ws, FactService fs, HardwareService hs,
+    IndexController(WeatherService ws, FactService fs, HardwareService hs, DateService ds,
                     @Value("${app.info.server.hostname}") String serverHostName) {
         this.ws = ws;
         this.fs = fs;
         this.hs = hs;
+        this.ds = ds;
         this.serverHostname = serverHostName;
     }
 
@@ -49,6 +52,7 @@ class IndexController {
         model.addAttribute("springBootVersion", SpringBootVersion.getVersion());
         model.addAttribute("podHostname", InetAddress.getLocalHost().getHostName());
         model.addAttribute("serverType", hs.getCpuModel().orElse("Dev Machine"));
+        model.addAttribute("currentDate", ds.getLocalDate());
         return "index";
     }
 

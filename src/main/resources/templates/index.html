@@ -12,10 +12,10 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container mt-2">
   <div class="row">
-    <div class="col-12 align-self-start">
-      <nav class="navbar mt-2">
+    <div class="col-12 p-0">
+      <nav class="navbar m-2 mt-2">
         <a class="navbar-brand text-secondary" th:href="@{/}">
           <h1 id="app-name" class="fs-2">&gt; hostname <span th:text="${serverHostname}">rpilab.dev</span></h1></a>
       </nav>
@@ -23,8 +23,8 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-6 align-self-start p-2">
-      <div class="info-box p-4">
+    <div class="col-sm-6 p-2">
+      <div class="info-box p-4 h-100">
         <h2>whoami</h2>
         <ul class="m-0 list-unstyled">
           <li class="my-3 truncate text-truncate">
@@ -45,17 +45,34 @@
         </ul>
       </div>
     </div>
-    <div class="col-sm-6 align-self-start p-2">
-      <div class="info-box p-4">
-        <h2>weather</h2>
-        <p id="weather" class="m-0 p-0 pt-1 truncate text-truncate" hx-get="/weather" hx-trigger="load">
-          <span class="text-secondary text-center w-100 d-inline-block" style="line-height: 64px">Loading...</span>
-        </p>
+    <div class="col-sm-6 p-2">
+      <div class="container p-0">
+        <div class="row pb-3">
+          <div class="col-sm-12">
+            <div class="info-box p-4">
+              <h2>date</h2>
+              <p id="date" class="m-0 p-0 fs-3 truncate text-truncate" th:text="${#temporals.format(currentDate)}">
+                <span class="fs-3 w-100" style="line-height: 64px">Loading...</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="info-box p-4">
+              <h2>weather</h2>
+              <p id="weather" class="m-0 p-0 pt-1 truncate text-truncate" hx-get="/weather" hx-trigger="load">
+                <span class="text-secondary text-center w-100 d-inline-block"
+                      style="line-height: 64px">Loading...</span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-12 align-self-start p-2">
+    <div class="col-12 p-2">
       <div class="info-box p-4">
         <h2>motd</h2>
         <p id="motd" class="m-0 p-0">
