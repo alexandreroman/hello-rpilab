@@ -21,8 +21,10 @@ management:
   otlp:
     metrics:
       export:
-        enabled: false
         step: 30s
+        url: http://localhost:4318/v1/metrics
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
   endpoint:
     health:
       probes:

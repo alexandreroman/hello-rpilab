@@ -16,6 +16,7 @@
 
 package dev.rpilab.hello.weather;
 
+import io.micrometer.observation.annotation.Observed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,6 +97,7 @@ public class WeatherService {
         return WEATHER_CONDITION_CODES.getOrDefault(cid, WeatherType.UNKNOWN);
     }
 
+    @Observed
     @Cacheable(key = "'current'", cacheNames = "weather")
     public Weather getCurrent() {
         logger.debug("Fetching current type");

@@ -16,6 +16,7 @@
 
 package dev.rpilab.hello.fact;
 
+import io.micrometer.observation.annotation.Observed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +34,7 @@ public class FactService {
         this.api = api;
     }
 
+    @Observed
     @Cacheable(key = "'last'", cacheNames = "facts")
     public Fact getFact() {
         logger.debug("Fetching fact");
