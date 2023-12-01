@@ -44,6 +44,11 @@
             <artifactId>htmx.org</artifactId>
             <version>1.9.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>github-fork-ribbon-css</artifactId>
+            <version>0.2.3</version>
+        </dependency>
 
         <dependency>
             <groupId>io.micrometer</groupId>

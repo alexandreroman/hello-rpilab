@@ -33,3 +33,7 @@ h2 {
   border-color: grey;
   background: #333B;
 }
+
+.github-fork-ribbon:before {
+  background-color: black;
+}
