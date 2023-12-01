@@ -63,16 +63,3 @@ app:
       url: https://api.weatherapi.com
   location: Paris
   timezone: Europe/Paris
-
----
-
-spring:
-  config:
-    activate:
-      on-cloud-platform: kubernetes
-
-management:
-  otlp:
-    metrics:
-      export:
-        enabled: true
