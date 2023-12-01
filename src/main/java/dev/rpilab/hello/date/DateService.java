@@ -16,13 +16,21 @@
 
 package dev.rpilab.hello.date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 public class DateService {
+    private final ZoneId zoneId;
+
+    public DateService(@Value("${app.timezone}") String timezone) {
+        zoneId = ZoneId.of(timezone);
+    }
+
     public LocalDate getLocalDate() {
-        return LocalDate.now();
+        return LocalDate.now(zoneId);
     }
 }
