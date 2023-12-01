@@ -9,7 +9,6 @@ stringData:
   provider: sample
   type: config
   app.info.server.hostname: #@ data.values.server_hostname if "server_hostname" in data.values else "hello-rpilab"
-  app.info.server.type: #@ data.values.server_type if "server_type" in data.values else "Dev"
   app.ninja.api.key: #@ data.values.ninja_api_key
   app.weather.api.key: #@ data.values.weather_api_key
 ---
