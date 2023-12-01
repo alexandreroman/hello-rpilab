@@ -3,6 +3,16 @@ spring:
     name: hello-rpilab
   cache:
     type: redis
+  web:
+    resources:
+      cache:
+        cache-control:
+          cache-public: true
+          max-age: 365d
+      chain:
+        strategy:
+          content:
+            enabled: true
 
 management:
   observations:

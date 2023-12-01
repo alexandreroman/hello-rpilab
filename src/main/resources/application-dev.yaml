@@ -13,3 +13,11 @@ management:
     metrics:
       export:
         enabled: false
+
+spring:
+  web:
+    resources:
+      cache:
+        cache-control:
+          max-age: 0
+          cache-public: false
