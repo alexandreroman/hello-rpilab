@@ -16,22 +16,28 @@
 
 package dev.rpilab.hello.date;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
-public class DateService {
-    private final TimezoneService ts;
-    private final String location;
+class TimezoneService {
+    private final Logger logger = LoggerFactory.getLogger(TimezoneService.class);
+    private final TimezoneApi api;
 
-    DateService(TimezoneService ts, @Value("${app.location}") String location) {
-        this.ts = ts;
-        this.location = location;
+    TimezoneService(TimezoneApi api) {
+        this.api = api;
     }
 
-    public LocalDate getLocalDate() {
-        return LocalDate.now(ts.getZoneId(location));
+    @Cacheable(key = "#location", cacheNames = "timezone")
+    public ZoneId getZoneId(String location) {
+        logger.debug("Fetching timezone for location: {}", location);
+        final var tz = api.getTimezone(location);
+        final var zid = ZoneId.of(tz.timezone());
+        logger.debug("Got timezone for location {}: {}", location, zid);
+        return zid;
     }
 }

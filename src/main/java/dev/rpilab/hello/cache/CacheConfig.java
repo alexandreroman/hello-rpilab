@@ -51,6 +51,11 @@ class CacheConfig {
                         RedisCacheConfiguration.defaultCacheConfig()
                                 .entryTtl(Duration.ofMinutes(1))
                                 .disableCachingNullValues()
+                                .serializeValuesWith(serializer))
+                .withCacheConfiguration("timezone",
+                        RedisCacheConfiguration.defaultCacheConfig()
+                                .entryTtl(Duration.ofDays(1))
+                                .disableCachingNullValues()
                                 .serializeValuesWith(serializer));
     }
 }
