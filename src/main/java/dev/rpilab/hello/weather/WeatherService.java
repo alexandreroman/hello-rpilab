@@ -100,15 +100,15 @@ public class WeatherService {
     @Observed
     @Cacheable(key = "'current'", cacheNames = "weather")
     public Weather getCurrent() {
-        logger.debug("Fetching current type");
+        logger.debug("Fetching current weather");
 
         final WeatherApiResponse resp;
         try {
             resp = api.getCurrent(location);
         } catch (RestClientException e) {
-            throw new WeatherServiceException("Failed to get current type", e);
+            throw new WeatherServiceException("Failed to get current weather", e);
         }
-        logger.debug("Received current type: {}", resp);
+        logger.debug("Received current weather: {}", resp);
 
         final ZoneId zoneId;
         try {
