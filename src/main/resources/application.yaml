@@ -55,7 +55,7 @@ app:
   info:
     server:
       hostname: rpilab.local
-  ninja:
+  ninjas:
     api:
       url: https://api.api-ninjas.com
   weather:

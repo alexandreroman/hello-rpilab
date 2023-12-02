@@ -27,8 +27,8 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 class DateConfig {
     @Bean
     TimezoneApi timezoneApi(
-            @Value("${app.ninja.api.url}") String apiUrl,
-            @Value("${app.ninja.api.key}") String apiKey,
+            @Value("${app.ninjas.api.url}") String apiUrl,
+            @Value("${app.ninjas.api.key}") String apiKey,
             RestClient.Builder clientBuilder) {
         final var client = clientBuilder.clone()
                 .defaultHeader("X-Api-Key", apiKey)
