@@ -16,6 +16,8 @@
 
 package dev.rpilab.hello.date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,23 @@ import java.time.ZoneId;
 
 @Service
 public class DateService {
-    private final ZoneId zoneId;
+    private final Logger logger = LoggerFactory.getLogger(DateService.class);
+    private final TimezoneApi api;
+    private final String location;
+    private ZoneId zoneId;
 
-    public DateService(@Value("${app.timezone}") String timezone) {
-        zoneId = ZoneId.of(timezone);
+    DateService(TimezoneApi api, @Value("${app.location}") String location) {
+        this.api = api;
+        this.location = location;
     }
 
     public LocalDate getLocalDate() {
+        if (zoneId == null) {
+            logger.debug("Fetching timezone for location: {}", location);
+            final var tz = api.getTimezone(location);
+            zoneId = ZoneId.of(tz.timezone());
+            logger.debug("Timezone for location {} is set to {}", location, zoneId);
+        }
         return LocalDate.now(zoneId);
     }
 }

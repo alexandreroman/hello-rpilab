@@ -62,4 +62,3 @@ app:
     api:
       url: https://api.weatherapi.com
   location: Paris
-  timezone: Europe/Paris
