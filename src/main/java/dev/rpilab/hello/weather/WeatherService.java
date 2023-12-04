@@ -16,7 +16,8 @@
 
 package dev.rpilab.hello.weather;
 
-import io.micrometer.observation.annotation.Observed;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,28 +88,23 @@ public class WeatherService {
     private final Logger logger = LoggerFactory.getLogger(WeatherService.class);
     private final WeatherApi api;
     private final String location;
+    private final ObservationRegistry observationRegistry;
 
-    WeatherService(WeatherApi api, @Value("${app.location}") String location) {
+    WeatherService(WeatherApi api, @Value("${app.location}") String location, ObservationRegistry observationRegistry) {
         this.api = api;
         this.location = location;
+        this.observationRegistry = observationRegistry;
     }
 
     private static WeatherType toWeatherType(int cid) {
         return WEATHER_CONDITION_CODES.getOrDefault(cid, WeatherType.UNKNOWN);
     }
 
-    @Observed
     @Cacheable(key = "'current'", cacheNames = "weather")
     public Weather getCurrent() {
-        logger.info("Fetching current weather");
-
-        final WeatherApiResponse resp;
-        try {
-            resp = api.getCurrent(location);
-        } catch (RestClientException e) {
-            throw new WeatherServiceException("Failed to get current weather", e);
-        }
-        logger.debug("Received current weather: {}", resp);
+        final WeatherApiResponse resp =
+                Observation.createNotStarted("weather.api", observationRegistry)
+                        .observe(this::callApi);
 
         final ZoneId zoneId;
         try {
@@ -119,5 +115,16 @@ public class WeatherService {
         final ZonedDateTime dateTime = ZonedDateTime.of(resp.current().last_updated(), zoneId);
         final WeatherType weatherType = toWeatherType(resp.current().condition().code());
         return new Weather(location, dateTime, weatherType, resp.current().temp_c());
+    }
+
+    private WeatherApiResponse callApi() {
+        logger.info("Fetching current weather");
+        try {
+            final var resp = api.getCurrent(location);
+            logger.debug("Received current weather: {}", resp);
+            return resp;
+        } catch (RestClientException e) {
+            throw new WeatherServiceException("Failed to get current weather", e);
+        }
     }
 }

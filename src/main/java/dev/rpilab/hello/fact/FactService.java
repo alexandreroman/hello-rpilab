@@ -16,7 +16,8 @@
 
 package dev.rpilab.hello.fact;
 
-import io.micrometer.observation.annotation.Observed;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,14 +30,22 @@ import java.util.List;
 public class FactService {
     private final Logger logger = LoggerFactory.getLogger(FactService.class);
     private final FactApi api;
+    private final ObservationRegistry observationRegistry;
 
-    FactService(FactApi api) {
+    FactService(FactApi api, ObservationRegistry observationRegistry) {
         this.api = api;
+        this.observationRegistry = observationRegistry;
     }
 
-    @Observed
     @Cacheable(key = "'last'", cacheNames = "facts")
     public Fact getFact() {
+        final FactApiResponse resp =
+                Observation.createNotStarted("facts.api", observationRegistry)
+                        .observe(this::callApi);
+        return new Fact(resp.fact());
+    }
+
+    private FactApiResponse callApi() {
         logger.info("Fetching fact");
         final List<FactApiResponse> resp;
         try {
@@ -49,6 +58,6 @@ public class FactService {
         }
         final var fact = resp.get(0);
         logger.debug("Received fact: {}", fact);
-        return new Fact(fact.fact());
+        return fact;
     }
 }

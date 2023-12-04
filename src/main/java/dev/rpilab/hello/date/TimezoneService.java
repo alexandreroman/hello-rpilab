@@ -16,6 +16,8 @@
 
 package dev.rpilab.hello.date;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,17 +29,25 @@ import java.time.ZoneId;
 class TimezoneService {
     private final Logger logger = LoggerFactory.getLogger(TimezoneService.class);
     private final TimezoneApi api;
+    private final ObservationRegistry observationRegistry;
 
-    TimezoneService(TimezoneApi api) {
+    TimezoneService(TimezoneApi api, ObservationRegistry observationRegistry) {
         this.api = api;
+        this.observationRegistry = observationRegistry;
     }
 
     @Cacheable(key = "#location", cacheNames = "timezone")
     public ZoneId getZoneId(String location) {
-        logger.debug("Fetching timezone for location: {}", location);
-        final var tz = api.getTimezone(location);
-        final var zid = ZoneId.of(tz.timezone());
+        final var resp =
+                Observation.createNotStarted("timezone.api", observationRegistry)
+                        .observe(() -> callApi(location));
+        final var zid = ZoneId.of(resp.timezone());
         logger.debug("Got timezone for location {}: {}", location, zid);
         return zid;
+    }
+
+    private TimezoneApiResponse callApi(String location) {
+        logger.debug("Fetching timezone for location: {}", location);
+        return api.getTimezone(location);
     }
 }
