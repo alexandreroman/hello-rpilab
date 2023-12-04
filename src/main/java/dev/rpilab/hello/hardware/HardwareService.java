@@ -40,7 +40,7 @@ public class HardwareService {
     }
 
     private Optional<String> loadCpuModel() {
-        logger.debug("Reading CPU model");
+        logger.info("Reading CPU model");
         final var cpuInfoFile = Path.of("/proc/cpuinfo");
         if (Files.isReadable(cpuInfoFile)) {
             final Properties p = new Properties();

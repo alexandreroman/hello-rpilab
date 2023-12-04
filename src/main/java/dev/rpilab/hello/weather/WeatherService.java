@@ -100,7 +100,7 @@ public class WeatherService {
     @Observed
     @Cacheable(key = "'current'", cacheNames = "weather")
     public Weather getCurrent() {
-        logger.debug("Fetching current weather");
+        logger.info("Fetching current weather");
 
         final WeatherApiResponse resp;
         try {

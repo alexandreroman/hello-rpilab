@@ -37,7 +37,7 @@ public class FactService {
     @Observed
     @Cacheable(key = "'last'", cacheNames = "facts")
     public Fact getFact() {
-        logger.debug("Fetching fact");
+        logger.info("Fetching fact");
         final List<FactApiResponse> resp;
         try {
             resp = api.getFacts();
@@ -51,5 +51,4 @@ public class FactService {
         logger.debug("Received fact: {}", fact);
         return new Fact(fact.fact());
     }
-
 }
