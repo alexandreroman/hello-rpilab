@@ -51,6 +51,17 @@ management:
 server:
   port: ${PORT:8080}
 
+logging:
+  level:
+    io:
+      micrometer:
+        registry:
+          otlp: off
+      opentelemetry:
+        exporter:
+          internal:
+            http: off
+
 app:
   info:
     server:
