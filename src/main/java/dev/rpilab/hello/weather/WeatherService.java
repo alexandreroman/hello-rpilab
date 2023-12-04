@@ -104,6 +104,7 @@ public class WeatherService {
     public Weather getCurrent() {
         final WeatherApiResponse resp =
                 Observation.createNotStarted("weather.api", observationRegistry)
+                        .lowCardinalityKeyValue("location", location)
                         .observe(this::callApi);
 
         final ZoneId zoneId;
