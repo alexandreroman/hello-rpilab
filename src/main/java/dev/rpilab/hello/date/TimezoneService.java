@@ -38,6 +38,7 @@ class TimezoneService {
 
     @Cacheable(key = "#location", cacheNames = "timezone")
     public ZoneId getZoneId(String location) {
+        // Use Micrometer API to observe the REST requests.
         final var resp =
                 Observation.createNotStarted("timezone.api", observationRegistry)
                         .lowCardinalityKeyValue("location", location)

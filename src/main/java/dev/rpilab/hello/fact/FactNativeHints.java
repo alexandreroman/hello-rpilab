@@ -25,6 +25,7 @@ class FactNativeHints implements RuntimeHintsRegistrar {
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
         try {
+            // Additional GraalVM configuration for 
             hints.reflection().registerType(Fact.class);
             hints.reflection().registerMethod(ReflectionUtils.findMethod(Fact.class, "fact"), ExecutableMode.INVOKE);
             hints.reflection().registerConstructor(ReflectionUtils.accessibleConstructor(Fact.class, String.class), ExecutableMode.INVOKE);

@@ -102,6 +102,7 @@ public class WeatherService {
 
     @Cacheable(key = "'current'", cacheNames = "weather")
     public Weather getCurrent() {
+        // Use Micrometer API to observe REST requests.
         final WeatherApiResponse resp =
                 Observation.createNotStarted("weather.api", observationRegistry)
                         .lowCardinalityKeyValue("location", location)

@@ -34,10 +34,12 @@ class WeatherConfig {
             @Value("${app.weather.api.url}") String apiUrl,
             @Value("${app.weather.api.key}") String apiKey,
             RestClient.Builder clientBuilder) {
+        // Configure a REST client.
         final var client = clientBuilder.clone()
                 .baseUrl(apiUrl)
                 .defaultUriVariables(Map.of("key", apiKey))
                 .build();
+        // Create a service instance using this REST client.
         return HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build()
                 .createClient(WeatherApi.class);
     }

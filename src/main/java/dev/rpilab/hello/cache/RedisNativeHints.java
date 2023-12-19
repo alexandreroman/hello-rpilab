@@ -25,6 +25,7 @@ class RedisNativeHints implements RuntimeHintsRegistrar {
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
         try {
+            // Additional GraalVM configuration required when using Redis as a cache.
             hints.reflection().registerType(classLoader.loadClass("java.util.ImmutableCollections$ListN"));
             hints.reflection().registerMethod(
                     ReflectionUtils.findMethod(classLoader.loadClass("io.lettuce.core.resource.ClientResources"), "shutdown"),

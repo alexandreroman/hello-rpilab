@@ -30,10 +30,12 @@ class DateConfig {
             @Value("${app.ninjas.api.url}") String apiUrl,
             @Value("${app.ninjas.api.key}") String apiKey,
             RestClient.Builder clientBuilder) {
+        // Configure a REST client.
         final var client = clientBuilder.clone()
                 .defaultHeader("X-Api-Key", apiKey)
                 .baseUrl(apiUrl)
                 .build();
+        // Create a service instance using this REST client.
         return HttpServiceProxyFactory
                 .builderFor(RestClientAdapter.create(client))
                 .build().createClient(TimezoneApi.class);

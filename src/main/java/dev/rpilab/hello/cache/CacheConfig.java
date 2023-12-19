@@ -36,11 +36,16 @@ import java.time.Duration;
 class CacheConfig {
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer(ObjectMapper om) {
+        // Configure serialization of cached entities with Redis.
+        // Java entities are mapped as JSON structures.
         final var omCopy = om.copy()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.EVERYTHING, JsonTypeInfo.As.PROPERTY);
         final var serializer = SerializationPair.fromSerializer(
                 new GenericJackson2JsonRedisSerializer(omCopy));
+
+        // Apply this configuration for each "caching domain".
+        // Note how we set a different TTL depending on the domain.
         return (builder) -> builder
                 .withCacheConfiguration("weather",
                         RedisCacheConfiguration.defaultCacheConfig()
