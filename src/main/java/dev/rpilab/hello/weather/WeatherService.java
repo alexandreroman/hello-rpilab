@@ -63,6 +63,7 @@ public class WeatherService {
         WEATHER_CONDITION_CODES.put(1246, WeatherType.RAIN);
         WEATHER_CONDITION_CODES.put(1273, WeatherType.RAIN);
         WEATHER_CONDITION_CODES.put(1276, WeatherType.RAIN);
+        WEATHER_CONDITION_CODES.put(1210, WeatherType.SNOW);
         WEATHER_CONDITION_CODES.put(1213, WeatherType.SNOW);
         WEATHER_CONDITION_CODES.put(1216, WeatherType.SNOW);
         WEATHER_CONDITION_CODES.put(1219, WeatherType.SNOW);
