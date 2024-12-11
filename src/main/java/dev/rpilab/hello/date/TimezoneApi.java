@@ -16,13 +16,17 @@
 
 package dev.rpilab.hello.date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.service.annotation.GetExchange;
 
 interface TimezoneApi {
-    @GetExchange(url = "v1/timezone?city={city}")
-    TimezoneApiResponse getTimezone(@PathVariable("city") String city);
+    @GetExchange(url = "/v1/timezone.json?q={location}&key={key}")
+    TimezoneApiResponse getTimezone(@PathVariable("location") String city);
 }
 
-record TimezoneApiResponse(String timezone) {
+record TimezoneApiResponse(TimezoneApiResponseLocation location) {
+}
+
+record TimezoneApiResponseLocation(@JsonProperty(value = "tz_id", required = true) String timezone) {
 }

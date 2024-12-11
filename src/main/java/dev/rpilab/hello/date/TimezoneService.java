@@ -43,7 +43,7 @@ class TimezoneService {
                 Observation.createNotStarted("timezone.api", observationRegistry)
                         .lowCardinalityKeyValue("location", location)
                         .observe(() -> callApi(location));
-        final var zid = ZoneId.of(resp.timezone());
+        final var zid = ZoneId.of(resp.location().timezone());
         logger.debug("Got timezone for location {}: {}", location, zid);
         return zid;
     }

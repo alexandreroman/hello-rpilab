@@ -43,11 +43,12 @@ class DateServiceTest {
 
     @Test
     void testGetDate() {
-        stubFor(get(urlEqualTo("/v1/timezone?city=London"))
+        stubFor(get(urlEqualTo("/v1/timezone.json?q=London&key=foo"))
                 .willReturn(okJson("""
                         {
-                            "timezone": "Europe/London",
-                            "city": "london"
+                            "location": {
+                                "tz_id": "Europe/London"
+                            }
                           }
                         """)));
         assertThat(ds.getLocalDate()).isNotNull();

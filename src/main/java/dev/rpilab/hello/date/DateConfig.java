@@ -23,17 +23,19 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+import java.util.Map;
+
 @Configuration(proxyBeanMethods = false)
 class DateConfig {
     @Bean
     TimezoneApi timezoneApi(
-            @Value("${app.ninjas.api.url}") String apiUrl,
-            @Value("${app.ninjas.api.key}") String apiKey,
+            @Value("${app.weather.api.url}") String apiUrl,
+            @Value("${app.weather.api.key}") String apiKey,
             RestClient.Builder clientBuilder) {
         // Configure a REST client.
         final var client = clientBuilder.clone()
-                .defaultHeader("X-Api-Key", apiKey)
                 .baseUrl(apiUrl)
+                .defaultUriVariables(Map.of("key", apiKey))
                 .build();
         // Create a service instance using this REST client.
         return HttpServiceProxyFactory
