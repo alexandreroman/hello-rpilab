@@ -3,7 +3,7 @@ volumes:
     driver: local
 
 services:
-  postgres:
-    image: 'redis:7.2'
+  redis:
+    image: 'redis:7.4'
     ports:
     - '6379:6379'
