@@ -32,15 +32,11 @@ import java.net.UnknownHostException;
 @Controller
 class IndexController {
     private final String serverHostname;
-    private final WeatherService ws;
-    private final FactService fs;
     private final HardwareService hs;
     private final DateService ds;
 
-    IndexController(WeatherService ws, FactService fs, HardwareService hs, DateService ds,
+    IndexController(HardwareService hs, DateService ds,
                     @Value("${app.info.server.hostname}") String serverHostName) {
-        this.ws = ws;
-        this.fs = fs;
         this.hs = hs;
         this.ds = ds;
         this.serverHostname = serverHostName;
@@ -54,17 +50,5 @@ class IndexController {
         model.addAttribute("serverType", hs.getCpuModel().orElse("Dev Machine"));
         model.addAttribute("currentDate", ds.getLocalDate());
         return "index";
-    }
-
-    @GetMapping("/motd")
-    String motd(Model model) {
-        model.addAttribute("motd", fs.getFact().fact());
-        return "fragments/motd";
-    }
-
-    @GetMapping("/weather")
-    String weather(Model model) {
-        model.addAttribute("weather", ws.getCurrent());
-        return "fragments/weather";
     }
 }
