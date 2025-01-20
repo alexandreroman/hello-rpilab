@@ -52,7 +52,7 @@
           <div class="col-sm-12">
             <div class="info-box p-4">
               <h2>date</h2>
-              <p id="date" class="m-0 p-0 fs-3 truncate text-truncate" th:text="${#temporals.format(currentDate)}">
+              <p id="date" class="m-0 p-0 fs-3 truncate text-truncate" th:text="${#temporals.format(currentDate, 'dd MMMM yyyy')}">
                 <span class="fs-3 w-100" style="line-height: 64px">Loading...</span>
               </p>
             </div>
