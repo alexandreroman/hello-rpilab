@@ -19,6 +19,7 @@ package dev.rpilab.hello.date;
 import com.redis.testcontainers.RedisContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
@@ -40,10 +41,12 @@ class DateServiceTest {
 
     @Autowired
     private DateService ds;
+    @Value("${app.weather.api.key}")
+    private String apiKey;
 
     @Test
     void testGetDate() {
-        stubFor(get(urlEqualTo("/v1/timezone.json?q=London&key=foo"))
+        stubFor(get(urlEqualTo("/v1/timezone.json?q=London&key=" + apiKey))
                 .willReturn(okJson("""
                         {
                             "location": {
