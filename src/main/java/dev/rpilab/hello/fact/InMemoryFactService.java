@@ -16,15 +16,14 @@
 
 package dev.rpilab.hello.fact;
 
+import org.springframework.context.annotation.Fallback;
+import org.springframework.stereotype.Service;
 
-import org.springframework.web.service.annotation.GetExchange;
-
-import java.util.List;
-
-interface FactApi {
-    @GetExchange(url = "v1/facts")
-    List<FactApiResponse> getFacts();
-}
-
-record FactApiResponse(String fact) {
+@Service
+@Fallback
+class InMemoryFactService implements FactService {
+    @Override
+    public Fact getFact() {
+        return new Fact("This is a fun fact.");
+    }
 }

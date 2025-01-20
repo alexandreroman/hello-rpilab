@@ -13,6 +13,12 @@ spring:
         strategy:
           content:
             enabled: true
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-4o
+          temperature: 0.8
 
 management:
   observations:
@@ -71,9 +77,6 @@ app:
   info:
     server:
       hostname: rpilab.local
-  ninjas:
-    api:
-      url: https://api.api-ninjas.com
   weather:
     api:
       url: https://api.weatherapi.com

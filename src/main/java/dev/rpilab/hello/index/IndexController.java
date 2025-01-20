@@ -17,9 +17,7 @@
 package dev.rpilab.hello.index;
 
 import dev.rpilab.hello.date.DateService;
-import dev.rpilab.hello.fact.FactService;
 import dev.rpilab.hello.hardware.HardwareService;
-import dev.rpilab.hello.weather.WeatherService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.stereotype.Controller;

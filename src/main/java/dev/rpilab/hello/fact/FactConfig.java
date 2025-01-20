@@ -16,30 +16,10 @@
 
 package dev.rpilab.hello.fact;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportRuntimeHints;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.support.RestClientAdapter;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration(proxyBeanMethods = false)
-@ImportRuntimeHints(FactNativeHints.class)
+@RegisterReflectionForBinding(Fact.class)
 class FactConfig {
-    @Bean
-    FactApi factApi(
-            @Value("${app.ninjas.api.url}") String apiUrl,
-            @Value("${app.ninjas.api.key}") String apiKey,
-            RestClient.Builder clientBuilder) {
-        // Configure a REST client.
-        final var client = clientBuilder.clone()
-                .defaultHeader("X-Api-Key", apiKey)
-                .baseUrl(apiUrl)
-                .build();
-        // Create a service instance using this REST client.
-        return HttpServiceProxyFactory
-                .builderFor(RestClientAdapter.create(client))
-                .build().createClient(FactApi.class);
-    }
 }
