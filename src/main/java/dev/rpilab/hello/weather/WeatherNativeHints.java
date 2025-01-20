@@ -21,26 +21,10 @@ import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.util.ReflectionUtils;
 
-import java.time.ZonedDateTime;
-
 class WeatherNativeHints implements RuntimeHintsRegistrar {
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-        try {
-            hints.reflection().registerType(Weather.class);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(Weather.class, "type"), ExecutableMode.INVOKE);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(Weather.class, "updatedAt"), ExecutableMode.INVOKE);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(Weather.class, "location"), ExecutableMode.INVOKE);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(Weather.class, "temperature"), ExecutableMode.INVOKE);
-            hints.reflection().registerConstructor(ReflectionUtils.accessibleConstructor(Weather.class, String.class, ZonedDateTime.class, WeatherType.class, Double.TYPE), ExecutableMode.INVOKE);
-
-            hints.reflection().registerType(WeatherType.class);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(WeatherType.class, "name"), ExecutableMode.INVOKE);
-
-            hints.reflection().registerType(WeatherUtils.class);
-            hints.reflection().registerMethod(ReflectionUtils.findMethod(WeatherUtils.class, "formatTemperatureCelsius", Double.TYPE), ExecutableMode.INVOKE);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Failed to configure Weather service with native image support", e);
-        }
+        hints.reflection().registerType(WeatherUtils.class);
+        hints.reflection().registerMethod(ReflectionUtils.findMethod(WeatherUtils.class, "formatTemperatureCelsius", Double.TYPE), ExecutableMode.INVOKE);
     }
 }
