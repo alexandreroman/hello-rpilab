@@ -41,6 +41,11 @@ management:
         enabled: true
         add-additional-paths: true
       show-details: always
+      group:
+        readiness:
+          include:
+          - readinessState
+          - redis
   endpoints:
     web:
       exposure:
