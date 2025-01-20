@@ -1,7 +1,0 @@
-apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-kind: ClassClaim
-metadata:
-  name: hello-rpilab-db
-spec:
-  classRef:
-    name: redis-unmanaged
