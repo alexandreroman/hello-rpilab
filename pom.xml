@@ -164,12 +164,10 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <image>
-                                <!-- Use a builder which is compatible with arm64 -->
-                                <builder>dashaun/builder:tiny</builder>
                                 <env>
-                                    <!-- Set a page size when building a native image for arm64
-                                     which is compatible with most arm64 CPUs and kernels such as Apple Silicon and Raspberry Pi -->
-                                    <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:PageSize=65536</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                    <!-- Set a page size when building a native image -->
+                                    <!-- which is compatible with most arm64 CPUs and kernels such as Apple Silicon and Raspberry Pi -->
+                                    <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:+UnlockExperimentalVMOptions -H:PageSize=65536</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                                 </env>
                             </image>
                         </configuration>
