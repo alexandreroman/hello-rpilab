@@ -29,12 +29,17 @@ import org.springframework.stereotype.Service;
 @Profile("!inmemory")
 class AIFactService implements FactService {
     private final Logger logger = LoggerFactory.getLogger(AIFactService.class);
-    private final FactProperties factProperties;
+    private final FactHistoryAdvisor historyAdvisor;
+    private final FactRepository repo;
+    private final FactProperties props;
     private final ChatClient chatClient;
     private final ObservationRegistry observationRegistry;
 
-    AIFactService(FactProperties factProperties, ChatClient.Builder chatClientBuilder, ObservationRegistry observationRegistry) {
-        this.factProperties = factProperties;
+    AIFactService(FactHistoryAdvisor historyAdvisor, FactRepository repo, FactProperties props,
+                  ChatClient.Builder chatClientBuilder, ObservationRegistry observationRegistry) {
+        this.historyAdvisor = historyAdvisor;
+        this.repo = repo;
+        this.props = props;
         this.chatClient = chatClientBuilder.build();
         this.observationRegistry = observationRegistry;
     }
@@ -47,16 +52,20 @@ class AIFactService implements FactService {
 
     private Fact generateFact() {
         logger.info("Generating fact leveraging AI");
-        final var req = """
-                %s
-                """.formatted(factProperties.prompt());
-        return chatClient.prompt()
+
+        final var fact = chatClient.prompt()
                 .system("""
                         You're an helpful assistant.
                         You answer to user requests without using offending or aggressive language.
                         """)
-                .user(req)
+                .user(props.prompt())
+                .advisors(historyAdvisor)
                 .call()
                 .entity(Fact.class);
+
+        // Store this fact into the repository.
+        repo.add(fact.fact());
+
+        return fact;
     }
 }

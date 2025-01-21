@@ -19,5 +19,5 @@ package dev.rpilab.hello.fact;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "app.fact")
-record FactProperties(String prompt) {
+record FactProperties(String prompt, int historySize) {
 }

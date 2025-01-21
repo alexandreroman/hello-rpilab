@@ -16,5 +16,5 @@
 
 package dev.rpilab.hello.fact;
 
-public record Fact(String fact) {
+record Fact(String fact) {
 }

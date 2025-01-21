@@ -84,5 +84,6 @@ app:
   fact:
     prompt: >
       Give an unexpected and funny fun fact about a famous invention.
-      Limit the message to 3 sentences maximum.
+      Limit the message to 4 sentences maximum.
       Avoid reusing previous facts if possible.
+    history-size: 10

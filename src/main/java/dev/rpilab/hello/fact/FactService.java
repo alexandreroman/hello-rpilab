@@ -16,6 +16,6 @@
 
 package dev.rpilab.hello.fact;
 
-public interface FactService {
+interface FactService {
     Fact getFact();
 }
