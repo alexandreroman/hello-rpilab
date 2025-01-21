@@ -16,12 +16,8 @@
 
 package dev.rpilab.hello.fact;
 
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(FactProperties.class)
-@RegisterReflectionForBinding(Fact.class)
-class FactConfig {
+@ConfigurationProperties(prefix = "app.fact")
+record FactProperties(String prompt) {
 }

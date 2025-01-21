@@ -81,3 +81,8 @@ app:
     api:
       url: https://api.weatherapi.com
   location: Paris
+  fact:
+    prompt: >
+      Give an unexpected and funny fun fact about a famous invention.
+      Limit the message to 3 sentences maximum.
+      Avoid reusing previous facts if possible.

@@ -29,10 +29,12 @@ import org.springframework.stereotype.Service;
 @Profile("!inmemory")
 class AIFactService implements FactService {
     private final Logger logger = LoggerFactory.getLogger(AIFactService.class);
+    private final FactProperties factProperties;
     private final ChatClient chatClient;
     private final ObservationRegistry observationRegistry;
 
-    AIFactService(ChatClient.Builder chatClientBuilder, ObservationRegistry observationRegistry) {
+    AIFactService(FactProperties factProperties, ChatClient.Builder chatClientBuilder, ObservationRegistry observationRegistry) {
+        this.factProperties = factProperties;
         this.chatClient = chatClientBuilder.build();
         this.observationRegistry = observationRegistry;
     }
@@ -45,16 +47,15 @@ class AIFactService implements FactService {
 
     private Fact generateFact() {
         logger.info("Generating fact leveraging AI");
+        final var req = """
+                %s
+                """.formatted(factProperties.prompt());
         return chatClient.prompt()
                 .system("""
                         You're an helpful assistant.
                         You answer to user requests without using offending or aggressive language.
                         """)
-                .user("""
-                        Generate a fun fact.
-                        Just include the fact in your answer.
-                        Use up to 3 sentences for your answer.
-                        """)
+                .user(req)
                 .call()
                 .entity(Fact.class);
     }
