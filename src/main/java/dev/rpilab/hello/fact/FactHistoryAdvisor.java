@@ -55,7 +55,7 @@ class FactHistoryAdvisor implements CallAroundAdvisor {
 
     @Override
     public String getName() {
-        return "Fact History Advisor";
+        return "FactHistoryAdvisor";
     }
 
     @Override

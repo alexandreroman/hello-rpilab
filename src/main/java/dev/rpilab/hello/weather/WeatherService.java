@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class WeatherService {
+class WeatherService {
     private static final Map<Integer, WeatherType> WEATHER_CONDITION_CODES = new HashMap<>(64);
 
     static {
