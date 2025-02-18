@@ -16,12 +16,13 @@
 
 package dev.rpilab.hello.fact;
 
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(FactProperties.class)
-@RegisterReflectionForBinding(Fact.class)
+@RegisterReflectionForBinding({Fact.class, OpenAiChatOptions.class})
 class FactConfig {
 }
