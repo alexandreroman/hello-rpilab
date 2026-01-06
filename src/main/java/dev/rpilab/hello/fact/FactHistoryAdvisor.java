@@ -16,14 +16,15 @@
 
 package dev.rpilab.hello.fact;
 
-import org.springframework.ai.chat.client.advisor.api.AdvisedRequest;
-import org.springframework.ai.chat.client.advisor.api.AdvisedResponse;
-import org.springframework.ai.chat.client.advisor.api.CallAroundAdvisor;
-import org.springframework.ai.chat.client.advisor.api.CallAroundAdvisorChain;
+import org.springframework.ai.chat.client.ChatClientRequest;
+import org.springframework.ai.chat.client.ChatClientResponse;
+import org.springframework.ai.chat.client.advisor.api.CallAdvisor;
+import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.stereotype.Component;
 
 @Component
-class FactHistoryAdvisor implements CallAroundAdvisor {
+class FactHistoryAdvisor implements CallAdvisor {
     private final FactRepository repo;
 
     FactHistoryAdvisor(FactRepository repo) {
@@ -31,11 +32,11 @@ class FactHistoryAdvisor implements CallAroundAdvisor {
     }
 
     @Override
-    public AdvisedResponse aroundCall(AdvisedRequest req, CallAroundAdvisorChain chain) {
+    public ChatClientResponse adviseCall(ChatClientRequest req, CallAdvisorChain chain) {
         final var previousFacts = repo.getAll();
         if (previousFacts.isEmpty()) {
             // Fact history is empty: there is no need to augment the prompt.
-            return chain.nextAroundCall(req);
+            return chain.nextCall(req);
         }
 
         final var promptWithHistory = """
@@ -44,13 +45,14 @@ class FactHistoryAdvisor implements CallAroundAdvisor {
                     Fact history is below, each item is surrounded by ---
                     ---
                     %s
-                """.formatted(req.userText(), String.join("\n---\n", previousFacts));
+                """.formatted(req.prompt().getUserMessage().getText(), String.join("\n---\n", previousFacts))
+                .trim();
 
         // Augment the prompt with the fact history.
-        final var newReq = AdvisedRequest.from(req)
-                .userText(promptWithHistory)
+        final var newReq = req.mutate()
+                .prompt(new Prompt(promptWithHistory))
                 .build();
-        return chain.nextAroundCall(newReq);
+        return chain.nextCall(newReq);
     }
 
     @Override
